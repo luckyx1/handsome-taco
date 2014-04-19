@@ -75,6 +75,13 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
 
     function move_straight(dir)
     {
-
+      if(board_state.me.last_move == dir)
+      {
+        move((dir - 1 + 6)%6);
+      }
+      else
+      {
+        move(dir);
+      }
     }
 })
