@@ -7,7 +7,7 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
   	//initially moves should be go right
   	var moves = board.safe_directions(me);
 
-    if(!(phase1 in player_state))
+    if(!("phase1" in player_state))
     {
       player_state.phase1 = false;
     }
@@ -25,6 +25,10 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
         else
           move_straight(3);
       }
+      else
+      {
+        choose_turn(color);
+      }
     }
     else
     {
@@ -38,6 +42,10 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
         }
         else
           move_straight(0);
+      }
+      else
+      {
+        choose_turn(color);
       }
     }
     
