@@ -40,6 +40,7 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
           move_straight(0);
       }
     }
+    
 
     function check_to_turn(color)
     {
