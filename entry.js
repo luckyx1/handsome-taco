@@ -12,7 +12,9 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     if(color == "blue")
     {
       // I'm right!
-      
+
+
+
 
     }
     else
@@ -28,5 +30,14 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     } else {
       move(me.straight());
     }
-  
+
+
+    function check_to_turn(color)
+    {
+      var x = board_state.me.x;
+      if(x == (color == "blue" ? 15 : 14))
+      {
+        return true;
+      }
+    }
 })
