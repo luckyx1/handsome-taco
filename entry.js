@@ -12,6 +12,13 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     if(color == "blue")
     {
       // I'm right!
+      if (_.contains(moves, me.right())) {
+      move(me.right());
+      } else if(_.contains(moves, me.left())) {
+      move(me.left());
+      } else {
+      move(me.straight());
+      }
 
 
 
@@ -20,16 +27,17 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     else
     {
       // I'm left!
-
-
-    }
-    if (_.contains(moves, me.right())) {
+      if (_.contains(moves, me.right())) {
       move(me.right());
-    } else if(_.contains(moves, me.left())) {
+      } else if(_.contains(moves, me.left())) {
       move(me.left());
-    } else {
+      } else {
       move(me.straight());
+      }
+
+
     }
+    
 
 
     function check_to_turn(color)
