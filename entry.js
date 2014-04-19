@@ -6,31 +6,40 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
   	var board = board_state.board;
   	//initially moves should be go right
   	var moves = board.safe_directions(me);
-  	//add code for random
-  	player_state.direction = ((player_state.direction || 0);
+
+    if(!(phase1 in player_state))
+    {
+      player_state.phase1 = false;
+    }
   	//check if I'm red or blue before deciding
     if(color == "blue")
     {
       // I'm right!
-
-
-
-
+      if(!player_state.phase1)
+      {
+        if(check_to_turn(color))
+        {
+          player_state.phase1 = true;
+          choose_turn(color);
+        }
+        else
+          move_straight(3);
+      }
     }
     else
     {
       // I'm left!
-
-
+      if(!player_state.phase1)
+      {
+        if(check_to_turn(color))
+        {
+          player_state.phase1 = true;
+          choose_turn(color);
+        }
+        else
+          move_straight(0);
+      }
     }
-    if (_.contains(moves, me.right())) {
-      move(me.right());
-    } else if(_.contains(moves, me.left())) {
-      move(me.left());
-    } else {
-      move(me.straight());
-    }
-
 
     function check_to_turn(color)
     {
@@ -38,9 +47,13 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
       var target = board_state.them.x + (color == "blue" ? 1 : -1)
       if(x == target)
       {
-        player_state.phase1 = true;
         return true;
       }
+    }
+
+    function phase2_choose(color)
+    {
+      ;
     }
 
     function choose_turn(color)
