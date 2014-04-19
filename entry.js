@@ -51,7 +51,17 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
 
     function phase2_choose(color)
     {
-      ;
+       if (_.contains(moves, me.sharp_left())) {
+        move(me.sharp_left());
+      } else if (_.contains(moves, me.left())) {
+        move(me.left());
+      } else if(_.contains(moves, me.straight())) {
+        move(me.straight());
+      } else if(_.contains(moves, me.right())) {
+        move(me.right());
+      } else {
+        move(me.sharp_right());
+      }
     }
 
     
