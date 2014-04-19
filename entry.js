@@ -47,11 +47,34 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     {
       if(color == "blue")
       {
-
+        if(3 in moves)
+        {
+          move(3);
+          player_state.phase2 = "down";
+        }
+        else
+        {
+          move(2);
+          player_state.phase2 = "up";
+        }
       }
       else
       {
-
+        if(0 in moves)
+        {
+          move(0);
+          player_state.phase2 = "up";
+        }
+        else
+        {
+          move(5);
+          player_state.phase2 = "down";
+        }
       }
+    }
+
+    function move_straight(dir)
+    {
+
     }
 })
