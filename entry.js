@@ -1,4 +1,4 @@
-Bot.register('DummyBot', function(board_state, player_state, move) {
+Bot.register('handsome-taco', function(board_state, player_state, move) {
   // Bot code, then call move!
     var color = board_state.me.color;
     var me = board_state.me;
