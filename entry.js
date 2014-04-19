@@ -22,10 +22,26 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
       player_state.phase3 = false;
     }
 
+    if(!("phase4" in player_state))
+    {
+      player_state.phase4 = false;
+    }
+
+    if(!("phase5" in player_state))
+    {
+      player_state.phase5 = false;
+    }
+
+    if(!("lastturn" in player_state))
+    {
+      player_state.lastturn = 0;
+    }
+
     if(!player_state.phase1)
     {
       if(check_to_turn(color))
       {
+        player_state.lastturn = board_state.me.x;
         choose_turn(color);
       }
       else
@@ -44,6 +60,7 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
         else
         {
           player_state.phase1 = true;
+        player_state.lastturn = board_state.me.x;
           choose_turn(color);
         }
       }
@@ -52,9 +69,17 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
     {
       phase2_choose(color);
     }
-    else
+    else if(!player_state.phase3)
     {
       phase3_choose(color);
+    }
+    else if(!player_state.phase4)
+    {
+      phase4_choose(color);
+    }
+    else
+    {
+      phase5_choose(color);
     }
 
     function check_to_turn(color)
@@ -71,7 +96,47 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
 
     function phase3_choose(color)
     {
-       if (_.contains(moves, me.sharp_left())) {
+      if("turned" in player_state)
+      {
+        if(board_state.me.x == player_state.lastturn)
+        {
+          var tag = false;
+          var mv = 4;
+          for(i = 0; i < moves.length; i++)
+          {
+            if(4 == moves[i])
+            {
+              tag = true;
+            }
+          }
+
+          if(tag)
+          {
+            mv = 4;
+          }
+          else
+          {
+            mv = 5;
+          }
+
+          player_state.phase3 = true;
+          move(mv);
+        }
+        else
+        {
+          spiral(color);
+        }
+      }
+      else
+      {
+        player_state.turned = 1;
+        spiral(color);
+      }
+    }
+
+    function spiral(color)
+    {
+      if (_.contains(moves, me.sharp_left())) {
         move(me.sharp_left());
       } else if (_.contains(moves, me.left())) {
         move(me.left());
@@ -125,5 +190,29 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
         player_state.phase2 = true;
         phase3_choose(color);
       }
+    }
+
+    function phase4_choose(color)
+    {
+      var tag = false;
+      for(i = 0 ; i < moves.length; i++)
+      {
+        if(moves[i] == board_state.me.last_move)
+          tag = true;
+      }
+      if(tag)
+      {
+        move(board_state.me.last_move);
+      }
+      else
+      {
+        player_state.phase4 = true;
+        phase5_choose(color);
+      }
+    }
+
+    function phase5_choose(color)
+    {
+      spiral(color);
     }
 })
