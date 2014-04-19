@@ -149,6 +149,21 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
       }
     }
 
+    function spiral2(color)
+    {
+      if (_.contains(moves, me.sharp_right())) {
+        move(me.sharp_right());
+      } else if (_.contains(moves, me.right())) {
+        move(me.right());
+      } else if(_.contains(moves, me.straight())) {
+        move(me.straight());
+      } else if(_.contains(moves, me.left())) {
+        move(me.left());
+      } else {
+        move(me.sharp_left());
+      }
+    }
+
     function choose_turn(color)
     {
       if(1 in moves)
@@ -213,6 +228,13 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
 
     function phase5_choose(color)
     {
-      spiral(color);
+      if(color == "blue")
+      {
+        spiral(color);
+      }
+      else
+      {
+        spiral2(color);
+      }
     }
 })
