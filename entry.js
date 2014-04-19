@@ -60,7 +60,7 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
         else
         {
           player_state.phase1 = true;
-        player_state.lastturn = board_state.me.x;
+          player_state.lastturn = board_state.me.x;
           choose_turn(color);
         }
       }
@@ -86,7 +86,7 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
     {
       var x = board_state.me.x;
       var target = board_state.them.x + (color == "blue" ? 1 : -1);
-          target = (color == "blue" ? (target < 10 ? 10 : target) : (target > 19 ? 19 : target));
+          target = (color == "blue" ? (target < 11 ? 11 : target) : (target > 18 ? 18 : target));
       if(x == target)
       {
         return true;
@@ -116,9 +116,8 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
           }
           else
           {
-            mv = 5;
+            mv = 1;
           }
-
           player_state.phase3 = true;
           move(mv);
         }
@@ -196,7 +195,7 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
         if(moves[i] == board_state.me.last_move)
           tag = true;
       }
-      if(tag)
+      if(tag && (board_state.me.last_move in moves))
       {
         move(board_state.me.last_move);
       }
@@ -230,7 +229,7 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
     {
       if(color == "blue")
       {
-        spiral(color);
+        spiral2(color);
       }
       else
       {
