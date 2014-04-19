@@ -1,59 +1,48 @@
 Bot.register('DummyBot', function(board_state, player_state, move) {
   // Bot code, then call move!
     var color = board_state.me.color;
-  	var me = board_state.me;
-  	var them = board_state.them;
-  	var board = board_state.board;
-  	//initially moves should be go right
-  	var moves = board.safe_directions(me);
+    var me = board_state.me;
+    var them = board_state.them;
+    var board = board_state.board;
+    //initially moves should be go right
+    var moves = board.safe_directions(me);
 
     if(!("phase1" in player_state))
     {
       player_state.phase1 = false;
     }
-  	//check if I'm red or blue before deciding
-    if(color == "blue")
+
+    if(!player_state.phase1)
     {
-      // I'm right!
-      if(!player_state.phase1)
+      if(check_to_turn(color))
       {
-        if(check_to_turn(color))
-        {
-          player_state.phase1 = true;
-          choose_turn(color);
-        }
-        else
-          move_straight(3);
-      }
-      else
-      {
+        player_state.phase1 = true;
         choose_turn(color);
+      }
+      else if (Math.abs(them.y - me.y) <= 1)
+      { 
+        move_straight(color == "blue" ? 3 : 0);
+      }
+      else if(them.y > me.y + 1)
+      {
+        move(color == "blue" ? 3 : 5)
+      }
+      else if(them.y < me.y - 1)
+      {
+        move(color == "blue" ? 2 : 0);
       }
     }
     else
     {
-      // I'm left!
-      if(!player_state.phase1)
-      {
-        if(check_to_turn(color))
-        {
-          player_state.phase1 = true;
-          choose_turn(color);
-        }
-        else
-          move_straight(0);
-      }
-      else
-      {
-        choose_turn(color);
-      }
+      //phase 2
+      phase2_choose(color);
     }
-    
 
     function check_to_turn(color)
     {
       var x = board_state.me.x;
-      var target = board_state.them.x + (color == "blue" ? 1 : -1)
+      var target = board_state.them.x + (color == "blue" ? 1 : -1);
+          target = (color == "blue" ? (target < 10 ? 10 : target) : (target > 19 ? 19 : target));
       if(x == target)
       {
         return true;
@@ -67,31 +56,13 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
 
     function choose_turn(color)
     {
-      if(color == "blue")
+      if(1 in moves)
       {
-        if(3 in moves)
-        {
-          move(3);
-          player_state.phase2 = "down";
-        }
-        else
-        {
-          move(2);
-          player_state.phase2 = "up";
-        }
+        move(1);
       }
       else
       {
-        if(0 in moves)
-        {
-          move(0);
-          player_state.phase2 = "up";
-        }
-        else
-        {
-          move(5);
-          player_state.phase2 = "down";
-        }
+        move(4);
       }
     }
 
