@@ -1,4 +1,4 @@
-Bot.register('DummyBot', function(board_state, player_state, move) {
+Bot.register('handsome-taco', function(board_state, player_state, move) {
   // Bot code, then call move!
     var color = board_state.me.color;
     var me = board_state.me;
@@ -26,7 +26,6 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     {
       if(check_to_turn(color))
       {
-        player_state.phase1 = true;
         choose_turn(color);
       }
       else
@@ -55,6 +54,7 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     }
     else
     {
+      phase3_choose(color);
     }
 
     function check_to_turn(color)
@@ -69,9 +69,19 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
       return false;
     }
 
-    function phase2_choose(color)
+    function phase3_choose(color)
     {
-      ;
+       if (_.contains(moves, me.sharp_left())) {
+        move(me.sharp_left());
+      } else if (_.contains(moves, me.left())) {
+        move(me.left());
+      } else if(_.contains(moves, me.straight())) {
+        move(me.straight());
+      } else if(_.contains(moves, me.right())) {
+        move(me.right());
+      } else {
+        move(me.sharp_right());
+      }
     }
 
     function choose_turn(color)
