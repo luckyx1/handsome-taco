@@ -234,7 +234,7 @@ Bot.register('handsome-taco', function(board_state, player_state, move) {
       }
       else
       {
-        spiral2(color);
+        spiral(color);
       }
     }
 })
