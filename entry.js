@@ -35,9 +35,23 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     function check_to_turn(color)
     {
       var x = board_state.me.x;
-      if(x == (color == "blue" ? 15 : 14))
+      var target = board_state.them.x + (color == "blue" ? 1 : -1)
+      if(x == target)
       {
+        player_state.phase1 = true;
         return true;
+      }
+    }
+
+    function choose_turn(color)
+    {
+      if(color == "blue")
+      {
+
+      }
+      else
+      {
+
       }
     }
 })
