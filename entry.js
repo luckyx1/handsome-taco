@@ -12,6 +12,16 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
       player_state.phase1 = false;
     }
 
+    if(!("phase2" in player_state))
+    {
+      player_state.phase2 = false;
+    }
+
+    if(!("phase3" in player_state))
+    {
+      player_state.phase3 = false;
+    }
+
     if(!player_state.phase1)
     {
       if(check_to_turn(color))
@@ -19,23 +29,32 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
         player_state.phase1 = true;
         choose_turn(color);
       }
-      else if (Math.abs(them.y - me.y) <= 1)
-      { 
-        move_straight(color == "blue" ? 3 : 0);
-      }
-      else if(them.y > me.y + 1)
+      else
       {
-        move(color == "blue" ? 3 : 5)
+        mv = move_straight(color == "blue" ? 3 : 0);
+        tag = false;
+        for(i = 0; i < moves.length; i++)
+        {
+          if(moves[i] == mv)
+            tag = true;
+        }
+        if(tag)
+        {
+          move(mv);
+        }
+        else
+        {
+          player_state.phase1 = true;
+          choose_turn(color);
+        }
       }
-      else if(them.y < me.y - 1)
-      {
-        move(color == "blue" ? 2 : 0);
-      }
+    }
+    else if(!player_state.phase2)
+    {
+      phase2_choose(color);
     }
     else
     {
-      //phase 2
-      phase2_choose(color);
     }
 
     function check_to_turn(color)
@@ -47,6 +66,7 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
       {
         return true;
       }
+      return false;
     }
 
     function phase2_choose(color)
@@ -70,11 +90,30 @@ Bot.register('DummyBot', function(board_state, player_state, move) {
     {
       if(board_state.me.last_move == dir)
       {
-        move((dir - 1 + 6)%6);
+        return ((dir - 1 + 6)%6);
       }
       else
       {
-        move(dir);
+        return (dir);
+      }
+    }
+
+    function phase2_choose(color)
+    {
+      var tag = false;
+      for(i = 0 ; i < moves.length; i++)
+      {
+        if(moves[i] == board_state.me.last_move)
+          tag = true;
+      }
+      if(tag)
+      {
+        move(board_state.me.last_move);
+      }
+      else
+      {
+        player_state.phase2 = true;
+        phase3_choose(color);
       }
     }
 })
